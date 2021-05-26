@@ -1,0 +1,28 @@
+CREATE OR REPLACE function FINANCIAL_YEAR(p_date DATE) return varchar2 IS
+   v_first     varchar2(4);
+   v_second    varchar2(4);
+   v_year      varchar2(4);
+   first_date  date;
+   second_date date;
+   third_date  date;
+   four_date date;
+   financial_year varchar2(9);
+BEGIN
+
+  v_year := to_char(p_date,'yyyy');
+  first_date := to_date('01-APR-'||v_year);
+  second_date := to_date('31-dec-'||v_year);
+  
+  third_date := to_date('01-JAN-'||v_year);
+  four_date := to_date('31-MAR-'||v_year);
+  
+  IF p_date >= first_date AND  p_date <= second_date   THEN
+        financial_year := to_char(v_year||'-'||to_number(v_year+1));
+  END IF;
+  
+  IF p_date >= third_date AND  p_date <= four_date   THEN
+        financial_year := to_char(to_number(v_year)-1||'-'||to_number(v_year));
+  END IF;
+ 
+  return financial_year;
+END;
